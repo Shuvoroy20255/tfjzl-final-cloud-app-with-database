@@ -1,15 +1,24 @@
-from django.urls import path
-from . import views
+from django.shortcuts import render
+from django.http import HttpResponse
 
-app_name = 'onlinecourse'
+def submit(request):
+    """
+    Function to handle exam submission.
+    """
+    if request.method == 'POST':
+        # Add your form submission or database saving logic here
+        return HttpResponse("Successfully Submitted!")
+        
+    return render(request, 'submit.html')  # Change to your actual template name
 
-urlpatterns = [
-    path(route='', view=views.CourseListView.as_view(), name='index'),
-    path(route='signup/', view=views.registration_request, name='signup'),
-    path(route='signin/', view=views.login_request, name='signin'),
-    path(route='logout/', view=views.logout_request, name='logout'),
-    path(route='<int:pk>/enroll/', view=views.enroll, name='enroll'),
-    path(route='<int:pk>/course_details/', view=views.CourseDetailView.as_view(), name='course_details'),
-    path(route='<int:course_id>/exam_submission/', view=views.submit, name='exam_submission'),
-    path(route='<int:course_id>/submission_result/<int:submission_id>/', view=views.show_exam_result, name='exam_result'),
-]
+
+def show_exam_result(request):
+    """
+    Function to display the exam results.
+    """
+    # Add your logic to fetch results here
+    context = {
+        'result': 'Passed',
+        'score': '85%'
+    }
+    return render(request, 'exam_result.html', context)  # Change to your actual template name
